@@ -29,6 +29,9 @@ export default function ProductPage() {
   const [pageNo, setPageNo] = useState(1);
   const [prevPageButtonDisable, setPrevDisable] = useState(true);
   const [nextPageButtonDisable, setNextDisable] = useState(false);
+  const [sortByType, setSortbyType] = useState('');
+  const [sortByOrder, setSortByOrder] = useState('ASC');
+
   //prodName and prodCategory
   const [filterByItem, setFilterByItem] = useState('');
 
@@ -79,6 +82,24 @@ export default function ProductPage() {
     }
   }
 
+  const handleSortByOrderChange = (e) => {setSortByOrder(e.target.value)}
+  const handleSortItemChange = (e) => {setSortbyType(e.target.value)}
+
+  const handleShowSortResults = () => {
+    if (sortByType == 'price'){
+      let sortedProducts = [];
+      if (sortByOrder === 'ASC' ) {
+        sortedProducts = [...products].sort((a, b) => a[sortByType] - b[sortByType]);
+      } else if (sortByOrder === 'DESC') {
+        sortedProducts = [...products].sort((a, b) => b[sortByType] - a[sortByType]);
+      }
+      setProducts(sortedProducts);
+    } else{
+      setProducts(productsUnfil)
+    }
+
+  };
+
   return (
     <Flex px='10%' flexWrap={'wrap'} overflow='hidden'>
       <Heading>Search</Heading>
@@ -99,6 +120,27 @@ export default function ProductPage() {
         </Select>
       </InputRightAddon>
     </InputGroup>
+
+    <Heading mt='2%'>Sort By</Heading>
+    <InputGroup borderRadius={5} size="sm">
+        <Select onChange={handleSortItemChange} variant='outline' size='sm' value={sortByType} >
+          <option hidden disabled value="">Select Type</option>
+          <option value='price'>Product Price</option>
+          <option value='category'>Relevance</option>
+        </Select>
+        <InputRightAddon
+          p={0}
+          border="none"
+        >
+        <Select onChange={handleSortByOrderChange} variant='outline' size='sm' value={sortByOrder} >
+          <option hidden disabled value="">Select Order</option>
+          <option value='ASC'>Ascending</option>
+          <option value='DESC'>Descending</option>
+        </Select>
+      </InputRightAddon>
+      <Button onClick = {handleShowSortResults}>Show Sort Results</Button>
+    </InputGroup>
+
     {/* onChange={handleSelectPage} */}
 
       {products.slice((pageNo-1)*10,pageNo*10).map(product => (
