@@ -9,43 +9,38 @@ import {
   HStack,
   Button,
   Divider,
-  Select
+  Select,
+  InputGroup,
+  Input,
+  InputLeftElement,
+  InputRightAddon,
+  Stack
 } from '@chakra-ui/react';
 import { BsArrowUpRight, BsFillCartPlusFill } from 'react-icons/bs';
+import {Search2Icon} from  "@chakra-ui/icons"
 
 
 import React, { useState, useEffect } from 'react';
 
 export default function ProductPage() {
   const [liked, setLiked] = useState(false);
+  const [productsUnfil, setProductsUnfil] = useState([]);
   const [products, setProducts] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [prevPageButtonDisable, setPrevDisable] = useState(true);
   const [nextPageButtonDisable, setNextDisable] = useState(false);
-
-  console.log('this is the page num')
-  console.log(pageNo)
-  
-
-
-  // if(pageNo === products.length){
-  //   setPrevDisable(true)
-  // } else{
-  //   setPrevDisable(false)
-  // }
+  //prodName and prodCategory
+  const [filterByItem, setFilterByItem] = useState('');
 
   useEffect(() => {
     fetch('https://dummyjson.com/products')
       .then(res => res.json())
       .then(data => {
+        setProductsUnfil(data.products);
         setProducts(data.products);
       })
       .catch(error => console.log(error));
   }, []);
-
-  // for (let i=0; i < products.length; i+10) {
-  //   pagesArray.push(i+1);
-  // }
 
   const handleNextPage=() => {
     handlePageChange(pageNo+1)
@@ -73,8 +68,39 @@ export default function ProductPage() {
     
   }
 
+  const handleFilterTypeChange = (e) => setFilterByItem(e.target.value)
+
+  const handleSearchChange = (e) => {
+    if (filterByItem =='prodName'){
+      setProducts(productsUnfil.filter(prod => prod.title.toUpperCase().includes(e.target.value.toUpperCase())))
+    }
+    else if (filterByItem == 'prodCategory'){
+      setProducts(productsUnfil.filter(prod => prod.category.toLowerCase().includes(e.target.value.toLowerCase())))
+    }
+  }
+
   return (
     <Flex px='10%' flexWrap={'wrap'} overflow='hidden'>
+      <Heading>Search</Heading>
+      <InputGroup borderRadius={5} size="sm">
+        <InputLeftElement
+          pointerEvents="none"
+          children={<Search2Icon color="gray.600" />}
+        />
+        <Input onInput={handleSearchChange} type="text" placeholder="Search..." border="1px solid #949494" />
+        <InputRightAddon
+          p={0}
+          border="none"
+        >
+        <Select onChange={handleFilterTypeChange} variant='outline' size='sm' value={filterByItem} >
+          <option hidden disabled value="">Select Type</option>
+          <option value='prodName'>Product Name</option>
+          <option value='prodCategory'>Product Category</option>
+        </Select>
+      </InputRightAddon>
+    </InputGroup>
+    {/* onChange={handleSelectPage} */}
+
       {products.slice((pageNo-1)*10,pageNo*10).map(product => (
           <Center py={6}>
           <Box
@@ -96,7 +122,6 @@ export default function ProductPage() {
                 objectFit="fill"
                 h="full"
                 w="full"
-                // maxW={'100%'}
                 alt={'Image'}
               />
             </Box>
@@ -114,7 +139,7 @@ export default function ProductPage() {
                 </Text>
               </Box>
               <Heading color={'black'} fontSize={'2xl'} noOfLines={2}>
-                {product.title} 
+                {product.title.toUpperCase()} 
               </Heading>
               <Text color={'gray.500'} noOfLines={2}>
                 {product.category}
