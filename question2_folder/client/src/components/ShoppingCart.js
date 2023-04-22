@@ -46,16 +46,6 @@ const ShoppingCart = ({ cartList, isOpen, onClose }) => {
                 </Tr>
                 ))}
               </Tbody>
-              <Tfoot>
-                <Tr>
-                  <Th>Product</Th>
-                  <Th>Price (RM)</Th>
-                  <Th>Brand</Th>
-                  <Th>Category</Th>
-                  <Th isNumeric>Quantity</Th>
-                  <Th isNumeric>Subtotal</Th>
-                </Tr>
-              </Tfoot>
             </Table>
           </TableContainer>
           <ModalFooter>

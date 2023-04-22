@@ -44,7 +44,7 @@ const ProductCard = ({ product, handleAddToCart }) => {
                 <Box
                     h="100%"
                     w="100%"
-                    pb="50%"
+                    pb="55%"
                     bgImage={product.images[product.images.length-1]}
                     bgSize="cover"
                     bgPosition="center"

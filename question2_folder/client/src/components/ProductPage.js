@@ -10,6 +10,7 @@ import {
   Input,
   InputLeftElement,
   InputRightAddon,
+  useToast
 } from '@chakra-ui/react';
 import {Search2Icon} from  "@chakra-ui/icons"
 
@@ -20,6 +21,7 @@ import ShoppingCart from './ShoppingCart';
 import {BsFillCartFill } from 'react-icons/bs';
 
 export default function ProductPage() {
+  const toast = useToast();
   const [productsUnfil, setProductsUnfil] = useState([]);
   const [products, setProducts] = useState([]);
   const [pageNo, setPageNo] = useState(1);
@@ -27,6 +29,7 @@ export default function ProductPage() {
   const [nextPageButtonDisable, setNextDisable] = useState(false);
   const [sortByType, setSortbyType] = useState('');
   const [sortByOrder, setSortByOrder] = useState('ASC');
+  
 
   //prodName and prodCategory
   const [filterByItem, setFilterByItem] = useState('');
@@ -113,11 +116,8 @@ export default function ProductPage() {
   };
 
   const addItemToCart = (item) => {
-    console.log('item is here')
-    console.log(item)
+    
     const existingItemIndex = shoppingCartList.items.findIndex((cartItem) => cartItem.id === item.id);
-    console.log('does it match lol')
-    console.log(existingItemIndex)
 
 
   
@@ -144,23 +144,30 @@ export default function ProductPage() {
         totalItems: shoppingCartList.totalItems + 1
       });
     }
+    toast({
+      title: "Item added to cart",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   return (
     <Flex alignItems={'center'} px='10%' flexDirection={'column'} overflow='hidden'>
 
       <Heading>Search</Heading>
-      <InputGroup borderRadius={5} size="sm">
+      <InputGroup borderRadius={5} size="sm" w='65%'>
         <InputLeftElement
           pointerEvents="none"
           children={<Search2Icon color="gray.600" />}
         />
         <Input onInput={handleSearchChange} type="text" placeholder="Search..." border="1px solid #949494" />
         <InputRightAddon
+          ml='1%'
           p={0}
           border="none"
         >
-        <Select onChange={handleFilterTypeChange} variant='outline' size='sm' value={filterByItem} >
+        <Select  onChange={handleFilterTypeChange} variant='outline' size='sm' value={filterByItem} >
           <option hidden disabled value="">Select Type</option>
           <option value='prodName'>Product Name</option>
           <option value='prodCategory'>Product Category</option>
@@ -169,14 +176,15 @@ export default function ProductPage() {
     </InputGroup>
 
     <Heading mt='2%'>Sort By</Heading>
-    <InputGroup borderRadius={5} size="sm">
-        <Select onChange={handleSortItemChange} variant='outline' size='sm' value={sortByType} >
+    <InputGroup mt='1%' borderRadius={5} size="sm" w='65%'>
+        <Select borderColor='#949494' onChange={handleSortItemChange} variant='outline' size='sm' value={sortByType} >
           <option hidden disabled value="">Select Type</option>
           <option value='price'>Product Price</option>
           <option value='category'>Relevance</option>
         </Select>
         <InputRightAddon
           p={0}
+          ml='1%'
           border="none"
         >
         <Select onChange={handleSortByOrderChange} variant='outline' size='sm' value={sortByOrder} >
@@ -185,7 +193,7 @@ export default function ProductPage() {
           <option value='DESC'>Descending</option>
         </Select>
       </InputRightAddon>
-      <Button onClick = {handleShowSortResults}>Show Sort Results</Button>
+      <Button ml='1%' onClick={handleShowSortResults}>Sort Results</Button>
     </InputGroup>
 
     <Button m='2%' onClick={handlePopupOpen} leftIcon={<BsFillCartFill />} colorScheme='teal' variant='solid'>
