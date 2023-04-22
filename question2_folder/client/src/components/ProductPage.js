@@ -22,12 +22,11 @@ export default function ProductPage() {
   const [pageNo, setPageNo] = useState(1);
   const [prevPageButtonDisable, setPrevDisable] = useState(true);
   const [nextPageButtonDisable, setNextDisable] = useState(false);
+
+  console.log('this is the page num')
+  console.log(pageNo)
   
-  // if(pageNo === 1){
-  //   setPrevDisable(true)
-  // } else{
-  //   setPrevDisable(false)
-  // }
+
 
   // if(pageNo === products.length){
   //   setPrevDisable(true)
@@ -39,7 +38,7 @@ export default function ProductPage() {
     fetch('https://dummyjson.com/products')
       .then(res => res.json())
       .then(data => {
-        setProducts(data.products)
+        setProducts(data.products);
       })
       .catch(error => console.log(error));
   }, []);
@@ -47,16 +46,31 @@ export default function ProductPage() {
   // for (let i=0; i < products.length; i+10) {
   //   pagesArray.push(i+1);
   // }
-  console.log(products.filter((_, index) => index % 10 === 0))
 
   const handleNextPage=() => {
-    setPageNo(pageNo+1)
+    handlePageChange(pageNo+1)
   }
   const handlePreviousPage=() => {
-    setPageNo(pageNo-1)
+    handlePageChange(pageNo-1)
   }
-  const handleSelectPage=(pgno) => {
-    setPageNo(pgno)
+  const handleSelectPage=(e) => {
+    handlePageChange(Number(e.target.value))
+  }
+
+  const handlePageChange = (pageNum) => {
+    setPageNo(pageNum)
+    if(pageNum === Math.round(products.length/10)){
+      setNextDisable(true)
+    } else{
+      setNextDisable(false)
+    }
+
+    if (pageNum === 1){
+      setPrevDisable(true)
+    } else{
+      setPrevDisable(false)
+    }
+    
   }
 
   return (
@@ -79,7 +93,7 @@ export default function ProductPage() {
                   product.images[product.images.length-1]
                 }
                 roundedTop={'sm'}
-                objectFit="scale-down"
+                objectFit="fill"
                 h="full"
                 w="full"
                 // maxW={'100%'}
@@ -140,7 +154,7 @@ export default function ProductPage() {
         <Button isDisabled={prevPageButtonDisable} onClick= {handlePreviousPage} colorScheme='teal' size='lg'>
           Previous Page
         </Button>
-        <Select  size='lg' >
+        <Select  size='lg' value={pageNo} onChange={handleSelectPage}>
           <option hidden disabled value="">Select Page</option>
         {
           products.filter((_, index) => index % 10 === 0).map((value, index) => index + 1).map(idx => (
