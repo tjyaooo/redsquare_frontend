@@ -28,7 +28,7 @@ const ProductCard = ({ product, handleAddToCart }) => {
   };
 
   return (
-    <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
+    <Box borderWidth="1px" borderColor='transparent' borderRadius="lg" overflow="hidden">
    <Center py={6}>
           <Box
             w="23rem"
@@ -36,7 +36,7 @@ const ProductCard = ({ product, handleAddToCart }) => {
             rounded={'sm'}
             mx={[0, 5]}
             overflow={'hidden'}
-            bg="white"
+            bg="none"
             border={'1px'}
             borderColor="black"
             boxShadow='6px 6px 0 black'>

@@ -10,7 +10,8 @@ import {
   Input,
   InputLeftElement,
   InputRightAddon,
-  useToast
+  useToast,
+  Text
 } from '@chakra-ui/react';
 import {Search2Icon} from  "@chakra-ui/icons"
 
@@ -133,10 +134,6 @@ export default function ProductPage() {
       });
     } else {
       // If the item doesn't exist in the cart, add it as a new item
-      console.log('shoppingcartlist before')
-      console.log(shoppingCartList)
-      console.log('item in question')
-      console.log(item)
       item.quantity=1
       setShoppingCartList({
         items: [...shoppingCartList.items, item],
@@ -153,31 +150,32 @@ export default function ProductPage() {
   };
 
   return (
-    <Flex alignItems={'center'} px='10%' flexDirection={'column'} overflow='hidden'>
+    <Flex alignItems={'center'} px='10%' flexDirection={'column'} overflow='hidden' maxW='100%'>
 
-      <Heading>Search</Heading>
-      <InputGroup borderRadius={5} size="sm" w='65%'>
+      <Flex w='65%' mt='2%'>
+      <InputGroup borderRadius={'lg'} size="md">
         <InputLeftElement
           pointerEvents="none"
           children={<Search2Icon color="gray.600" />}
         />
-        <Input onInput={handleSearchChange} type="text" placeholder="Search..." border="1px solid #949494" />
-        <InputRightAddon
+        <Input borderRadius={["lg", "lg"]} onInput={handleSearchChange} type="text" placeholder="Search..."  border="1px solid #949494" />
+        <InputRightAddon 
           ml='1%'
           p={0}
-          border="none"
+          borderRadius={'lg'}
         >
-        <Select  onChange={handleFilterTypeChange} variant='outline' size='sm' value={filterByItem} >
+        <Select borderRadius={'lg'} onChange={handleFilterTypeChange} variant='outline' value={filterByItem} >
           <option hidden disabled value="">Select Type</option>
           <option value='prodName'>Product Name</option>
           <option value='prodCategory'>Product Category</option>
         </Select>
-      </InputRightAddon>
-    </InputGroup>
+        </InputRightAddon>
+      </InputGroup>
+    </Flex>
 
-    <Heading mt='2%'>Sort By</Heading>
-    <InputGroup mt='1%' borderRadius={5} size="sm" w='65%'>
-        <Select borderColor='#949494' onChange={handleSortItemChange} variant='outline' size='sm' value={sortByType} >
+    <Heading alignSelf={'flex-start'} ml='17.7%' as='h4' size='md' mt='2%'>Sort By</Heading>
+    <InputGroup mt='1%' borderRadius={5} size="md" w='65%'>
+        <Select borderRadius={'lg'} borderColor='#949494' onChange={handleSortItemChange} variant='outline'  size="md" value={sortByType} >
           <option hidden disabled value="">Select Type</option>
           <option value='price'>Product Price</option>
           <option value='category'>Relevance</option>
@@ -185,9 +183,8 @@ export default function ProductPage() {
         <InputRightAddon
           p={0}
           ml='1%'
-          border="none"
         >
-        <Select onChange={handleSortByOrderChange} variant='outline' size='sm' value={sortByOrder} >
+        <Select onChange={handleSortByOrderChange} variant='outline' size="md" value={sortByOrder} >
           <option hidden disabled value="">Select Order</option>
           <option value='ASC'>Ascending</option>
           <option value='DESC'>Descending</option>
@@ -202,14 +199,14 @@ export default function ProductPage() {
 
     {/* onChange={handleSelectPage} */}
 
-    <Flex flexWrap={'wrap'} overflow='hidden' justifyContent={'center'}>
+    <Flex mt='0' flexWrap={'wrap'} overflow='hidden' justifyContent={'center'}>
       {products.slice((pageNo-1)*10,pageNo*10).map(product => (
         <ProductCard key={product.id} product={product} handleAddToCart={addItemToCart}/>
       ))}
     </Flex>
     <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
       <Divider/>
-      <HStack width='80rem'>
+      <HStack width='100%'>
         <Button isDisabled={prevPageButtonDisable} onClick= {handlePreviousPage} colorScheme='teal' size='lg'>
           Previous Page
         </Button>

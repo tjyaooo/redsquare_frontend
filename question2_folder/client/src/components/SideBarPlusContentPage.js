@@ -21,7 +21,7 @@ const ContentArea = ({component}) =>{
 }
 const Compiled = ({component}) => {
   const userObject = JSON.parse(localStorage.getItem( 'userObj' ));
-  const bgOuter = useColorModeValue('#F2F2F2', '#252525')
+  const bgOuter = '#F2F2F2'
 
   if(userObject){
     
@@ -44,7 +44,7 @@ function SideBarPlusContentPage({component}) {
   
   
   return (
-            < Compiled component={component}/>
+            <Compiled component={component}/>
   )
 }
 
