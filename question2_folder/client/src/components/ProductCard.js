@@ -10,7 +10,7 @@ import {
     HStack,
     Button
   } from '@chakra-ui/react';
-  import { BsArrowUpRight, BsFillCartPlusFill } from 'react-icons/bs';
+  import {BsFillCartPlusFill } from 'react-icons/bs';
 
 const ProductCard = ({ product }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -68,27 +68,17 @@ const ProductCard = ({ product }) => {
                 {product.category}
               </Text>
             </Box>
-            <Flex flexDir={'column'} justifyContent='flex-end' flex='1'>
+
             <HStack borderTop={'1px'} color="black">
-              <Flex
-                p={4}
-                alignItems="center"
-                justifyContent={'space-between'}
-                roundedBottom={'sm'}
-                cursor={'pointer'}
-                w="full">
-                <Button bg='none' fontSize={'md'} fontWeight={'semibold'} onClick={handlePopupOpen}>View Details</Button>
-              </Flex>
-              <Flex
-                p={4}
-                alignItems="center"
-                justifyContent={'space-between'}
-                roundedBottom={'sm'}
-                borderLeft={'1px'}>
-                {<BsFillCartPlusFill/>}
-              </Flex>
+                <Flex mt='3%' w='full' h='full' alignItems={'center'} justifyContent='center' gap='0.5rem'>
+                    <Button fontSize={'md'} fontWeight={'semibold'} onClick={handlePopupOpen}>View Details</Button>
+        
+                    <Button leftIcon={<BsFillCartPlusFill />} colorScheme='teal' variant='solid'>
+                        Add to Cart
+                    </Button>
+                </Flex>
             </HStack>
-            </Flex>
+
           </Box>
         </Center>
       <ProductPopup product={product} isOpen={isPopupOpen} onClose={handlePopupClose} />

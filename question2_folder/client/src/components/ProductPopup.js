@@ -1,4 +1,4 @@
-import { Image,Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Text } from "@chakra-ui/react";
+import { Image, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Text } from "@chakra-ui/react";
 
 const ProductPopup = ({ product, isOpen, onClose }) => {
   return (
