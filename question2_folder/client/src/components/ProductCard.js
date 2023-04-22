@@ -12,7 +12,7 @@ import {
   } from '@chakra-ui/react';
   import {BsFillCartPlusFill } from 'react-icons/bs';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, handleAddToCart }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handlePopupOpen = () => {
@@ -21,6 +21,10 @@ const ProductCard = ({ product }) => {
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
+  };
+
+  const handleClick = () => {
+    handleAddToCart(product);
   };
 
   return (
@@ -37,16 +41,15 @@ const ProductCard = ({ product }) => {
             borderColor="black"
             boxShadow='6px 6px 0 black'>
             <Box h={'200px'} borderBottom={'1px'} borderColor="black">
-              <Img
-                src={
-                  product.images[product.images.length-1]
-                }
-                roundedTop={'sm'}
-                objectFit="fill"
-                h="full"
-                w="full"
-                alt={'Image'}
-              />
+                <Box
+                    h="100%"
+                    w="100%"
+                    pb="50%"
+                    bgImage={product.images[product.images.length-1]}
+                    bgSize="cover"
+                    bgPosition="center"
+                    bgRepeat="no-repeat"
+                    />
             </Box>
             <Box p={4} h='38%'>
               <Box
@@ -73,7 +76,7 @@ const ProductCard = ({ product }) => {
                 <Flex mt='3%' w='full' h='full' alignItems={'center'} justifyContent='center' gap='0.5rem'>
                     <Button fontSize={'md'} fontWeight={'semibold'} onClick={handlePopupOpen}>View Details</Button>
         
-                    <Button leftIcon={<BsFillCartPlusFill />} colorScheme='teal' variant='solid'>
+                    <Button onClick={handleClick} leftIcon={<BsFillCartPlusFill />} colorScheme='teal' variant='solid'>
                         Add to Cart
                     </Button>
                 </Flex>

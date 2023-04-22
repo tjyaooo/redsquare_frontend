@@ -1,11 +1,7 @@
 
 import {
-  Box,
   Heading,
-  Text,
-  Img,
   Flex,
-  Center,
   HStack,
   Button,
   Divider,
@@ -14,17 +10,16 @@ import {
   Input,
   InputLeftElement,
   InputRightAddon,
-  Stack
 } from '@chakra-ui/react';
-import { BsArrowUpRight, BsFillCartPlusFill } from 'react-icons/bs';
 import {Search2Icon} from  "@chakra-ui/icons"
 
 
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
+import ShoppingCart from './ShoppingCart';
+import {BsFillCartFill } from 'react-icons/bs';
 
 export default function ProductPage() {
-  const [liked, setLiked] = useState(false);
   const [productsUnfil, setProductsUnfil] = useState([]);
   const [products, setProducts] = useState([]);
   const [pageNo, setPageNo] = useState(1);
@@ -35,6 +30,23 @@ export default function ProductPage() {
 
   //prodName and prodCategory
   const [filterByItem, setFilterByItem] = useState('');
+
+  const [shoppingCartList, setShoppingCartList] = useState({
+    items: [],
+    totalPrice: 0,
+    totalItems: 0
+  });
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+ 
+
+  const handlePopupOpen = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
 
   useEffect(() => {
     fetch('https://dummyjson.com/products')
@@ -98,11 +110,45 @@ export default function ProductPage() {
     } else{
       setProducts(productsUnfil)
     }
+  };
 
+  const addItemToCart = (item) => {
+    console.log('item is here')
+    console.log(item)
+    const existingItemIndex = shoppingCartList.items.findIndex((cartItem) => cartItem.id === item.id);
+    console.log('does it match lol')
+    console.log(existingItemIndex)
+
+
+  
+    if (existingItemIndex !== -1) {
+      // If the item already exists in the cart, update its quantity
+      const updatedItems = [...shoppingCartList.items];
+      updatedItems[existingItemIndex].quantity += 1;
+  
+      setShoppingCartList({
+        items: updatedItems,
+        totalPrice: shoppingCartList.totalPrice + item.price,
+        totalItems: shoppingCartList.totalItems + 1
+      });
+    } else {
+      // If the item doesn't exist in the cart, add it as a new item
+      console.log('shoppingcartlist before')
+      console.log(shoppingCartList)
+      console.log('item in question')
+      console.log(item)
+      item.quantity=1
+      setShoppingCartList({
+        items: [...shoppingCartList.items, item],
+        totalPrice: shoppingCartList.totalPrice + item.price,
+        totalItems: shoppingCartList.totalItems + 1
+      });
+    }
   };
 
   return (
-    <Flex px='10%' flexWrap={'wrap'} overflow='hidden'>
+    <Flex alignItems={'center'} px='10%' flexDirection={'column'} overflow='hidden'>
+
       <Heading>Search</Heading>
       <InputGroup borderRadius={5} size="sm">
         <InputLeftElement
@@ -142,11 +188,18 @@ export default function ProductPage() {
       <Button onClick = {handleShowSortResults}>Show Sort Results</Button>
     </InputGroup>
 
+    <Button m='2%' onClick={handlePopupOpen} leftIcon={<BsFillCartFill />} colorScheme='teal' variant='solid'>
+        View Cart
+      </Button>
+
     {/* onChange={handleSelectPage} */}
 
+    <Flex flexWrap={'wrap'} overflow='hidden' justifyContent={'center'}>
       {products.slice((pageNo-1)*10,pageNo*10).map(product => (
-        <ProductCard product={product}/>
+        <ProductCard key={product.id} product={product} handleAddToCart={addItemToCart}/>
       ))}
+    </Flex>
+    <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
       <Divider/>
       <HStack width='80rem'>
         <Button isDisabled={prevPageButtonDisable} onClick= {handlePreviousPage} colorScheme='teal' size='lg'>
@@ -156,15 +209,15 @@ export default function ProductPage() {
           <option hidden disabled value="">Select Page</option>
         {
           products.filter((_, index) => index % 10 === 0).map((value, index) => index + 1).map(idx => (
-            <option value={idx}>{idx}</option>
+            <option key = {idx} value={idx}>{idx}</option>
           ))
         }
-        
         </Select>
         <Button isDisabled={nextPageButtonDisable} onClick = {handleNextPage} colorScheme='teal' size='lg'>
           Next Page
         </Button>
       </HStack>
+
     </Flex>
   );
 }
