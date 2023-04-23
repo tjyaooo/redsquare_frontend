@@ -19,7 +19,7 @@ import {
   import ShoppingCart from './ShoppingCart';
   import {ShoppingCartContext} from './App';
   
-  export default function Sidebar() {
+  export default function Navbar() {
     const { isOpen, onToggle } = useDisclosure()
      const handlePopupOpen = () => {
         setIsPopupOpen(true);

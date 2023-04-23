@@ -3,7 +3,7 @@ import {
   Flex,
   Center
 } from '@chakra-ui/react'
-import Sidebar from './Sidebar'
+import Navbar from './Navbar'
 import "../css/SideBarPlusContentPage.css";
 
 const ContentArea = ({component}) =>{
@@ -21,7 +21,7 @@ const Compiled = ({component}) => {
     
     return (
       <Flex bg = {bgOuter} minHeight='100vh' flexDirection={'column'}>
-          <Sidebar />
+          <Navbar />
           <ContentArea component={component}/>
       </Flex>
 
