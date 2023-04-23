@@ -28,8 +28,10 @@ import {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const handlePopupClose = () => {
         setIsPopupOpen(false);
-      };
+    };
     const { shoppingCartList, setShoppingCartList } = useContext(ShoppingCartContext);
+
+
     return (
       <Box>
         
@@ -68,6 +70,7 @@ import {
                 View Cart ({shoppingCartList.totalItems})
             </Button>
             <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
+            
             <Image verticalAlign={'middle'} borderRadius='50%' boxSize='4rem' src={JSON.parse(localStorage.getItem('userCred')).image} referrerPolicy= "no-referrer" ></Image>
         </Flex>
   
@@ -89,6 +92,10 @@ import {
  
   
   const MobileNav = () => {
+    const doLogout = () => {
+        localStorage.removeItem('userCred');
+        window.location.reload()
+    }
 
     return (
       <Stack
@@ -96,6 +103,7 @@ import {
         p={4}
         display={{ md: "none" }}
       >
+        <Button onClick={doLogout} >Logout</Button>
       </Stack>
     )
   }

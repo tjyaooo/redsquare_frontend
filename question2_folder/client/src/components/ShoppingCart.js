@@ -28,8 +28,8 @@ const ShoppingCart = ({ cartList, isOpen, onClose }) => {
                 </Tr>
               </Thead>
               <Tbody>
-              {cartList.items.map((itm) => (
-                <Tr>
+              {cartList.items.map((itm, index) => (
+                <Tr key={index}>
                   <Td>
                     <Flex flexDirection={'column'}>
                       <Text w='100%' fontSize="sm" fontWeight='bold'>{itm.title}</Text>
