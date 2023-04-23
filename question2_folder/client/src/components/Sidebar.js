@@ -79,7 +79,7 @@ import {
     return (
       <Stack direction={"row"} spacing={4}>
         <Button m='2%' onClick={handlePopupOpen} leftIcon={<BsFillCartFill />} colorScheme='teal' variant='solid'>
-            View Cart
+            View Cart ({shoppingCartList.totalItems})
         </Button>
         <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
       </Stack>

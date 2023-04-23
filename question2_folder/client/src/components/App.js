@@ -22,9 +22,7 @@ function App() {
   }
 
   useEffect(() => {
-    console.log(localStorage.getItem("userCred"))
     if (!localStorage.getItem("userCred")) {
-      console.log('should be here')
       setIsLoggedIn(false)
     } else{
       setIsLoggedIn(true)
