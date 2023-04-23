@@ -11,15 +11,14 @@ import {
   InputLeftElement,
   InputRightAddon,
   useToast,
-  Text
+  InputRightElement
 } from '@chakra-ui/react';
 import {Search2Icon} from  "@chakra-ui/icons"
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ProductCard from './ProductCard';
-import ShoppingCart from './ShoppingCart';
-import {BsFillCartFill } from 'react-icons/bs';
+import {ShoppingCartContext} from './App';
 
 export default function ProductPage() {
   const toast = useToast();
@@ -29,29 +28,12 @@ export default function ProductPage() {
   const [prevPageButtonDisable, setPrevDisable] = useState(true);
   const [nextPageButtonDisable, setNextDisable] = useState(false);
   const [sortByType, setSortbyType] = useState('');
-  const [sortByOrder, setSortByOrder] = useState('ASC');
   
 
   //prodName and prodCategory
   const [filterByItem, setFilterByItem] = useState('');
-
-  const [shoppingCartList, setShoppingCartList] = useState({
-    items: [],
-    totalPrice: 0,
-    totalItems: 0
-  });
-
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
- 
-
-  const handlePopupOpen = () => {
-    setIsPopupOpen(true);
-  };
-
-  const handlePopupClose = () => {
-    setIsPopupOpen(false);
-  };
-
+  const { shoppingCartList, setShoppingCartList } = useContext(ShoppingCartContext);
+  
   useEffect(() => {
     fetch('https://dummyjson.com/products')
       .then(res => res.json())
@@ -99,29 +81,27 @@ export default function ProductPage() {
     }
   }
 
-  const handleSortByOrderChange = (e) => {setSortByOrder(e.target.value)}
   const handleSortItemChange = (e) => {setSortbyType(e.target.value)}
 
   const handleShowSortResults = () => {
-    if (sortByType == 'price'){
-      let sortedProducts = [];
-      if (sortByOrder === 'ASC' ) {
-        sortedProducts = [...products].sort((a, b) => a[sortByType] - b[sortByType]);
-      } else if (sortByOrder === 'DESC') {
-        sortedProducts = [...products].sort((a, b) => b[sortByType] - a[sortByType]);
+    let sortedProducts = []
+    if (sortByType == 'priceASC'){
+        sortedProducts = [...products].sort((a, b) => a['price'] - b['price']);
+        setProducts(sortedProducts);
       }
-      setProducts(sortedProducts);
-    } else{
+    else if (sortByType == 'priceDESC') {
+        sortedProducts = [...products].sort((a, b) => b['price'] - a['price']);
+        setProducts(sortedProducts);
+    }
+    else {
       setProducts(productsUnfil)
     }
-  };
+  }
 
   const addItemToCart = (item) => {
     
     const existingItemIndex = shoppingCartList.items.findIndex((cartItem) => cartItem.id === item.id);
 
-
-  
     if (existingItemIndex !== -1) {
       // If the item already exists in the cart, update its quantity
       const updatedItems = [...shoppingCartList.items];
@@ -174,37 +154,22 @@ export default function ProductPage() {
     </Flex>
 
     <Heading alignSelf={'flex-start'} ml='17.7%' as='h4' size='md' mt='2%'>Sort By</Heading>
-    <InputGroup mt='1%' borderRadius={5} size="md" w='65%'>
-        <Select borderRadius={'lg'} borderColor='#949494' onChange={handleSortItemChange} variant='outline'  size="md" value={sortByType} >
-          <option hidden disabled value="">Select Type</option>
-          <option value='price'>Product Price</option>
-          <option value='category'>Relevance</option>
-        </Select>
-        <InputRightAddon
-          p={0}
-          ml='1%'
-        >
-        <Select onChange={handleSortByOrderChange} variant='outline' size="md" value={sortByOrder} >
-          <option hidden disabled value="">Select Order</option>
-          <option value='ASC'>Ascending</option>
-          <option value='DESC'>Descending</option>
-        </Select>
-      </InputRightAddon>
-      <Button ml='1%' onClick={handleShowSortResults}>Sort Results</Button>
-    </InputGroup>
-
-    <Button m='2%' onClick={handlePopupOpen} leftIcon={<BsFillCartFill />} colorScheme='teal' variant='solid'>
-        View Cart
-      </Button>
-
-    {/* onChange={handleSelectPage} */}
+    <Flex w='65%' mt='2%'>
+      <Select borderRadius={'lg'} borderColor='#949494' onChange={handleSortItemChange} variant='outline'  size="md" value={sortByType} >
+        <option hidden disabled value="">Select Type</option>
+        <option value='priceASC'>Product Price (Ascending)</option>
+        <option value='priceDESC'>Product Price (Descending)</option>
+        <option value='category'>Relevance</option>
+      </Select>
+      <Button bg='#ED64A6' textColor={'white'} ml='1%' onClick={handleShowSortResults}>Sort Results</Button>
+    </Flex>
 
     <Flex mt='0' flexWrap={'wrap'} overflow='hidden' justifyContent={'center'}>
       {products.slice((pageNo-1)*10,pageNo*10).map(product => (
         <ProductCard key={product.id} product={product} handleAddToCart={addItemToCart}/>
       ))}
     </Flex>
-    <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
+    
       <Divider/>
       <HStack width='100%'>
         <Button isDisabled={prevPageButtonDisable} onClick= {handlePreviousPage} colorScheme='teal' size='lg'>

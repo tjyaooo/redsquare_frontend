@@ -1,17 +1,23 @@
 import React,{useEffect, useState } from "react"
-import axios from 'axios'
 import SideBarPlusContentPage from './SideBarPlusContentPage';
 import ProductPage from './ProductPage';
+import { createContext } from 'react';
 
-const api = axios.create({
-  baseURL: 'http://localhost:5000'
-}
-)
+export const ShoppingCartContext = createContext();
+
 
 function App() {
-          return (
-              <SideBarPlusContentPage component={<ProductPage/>}/>
-          )
+  const [shoppingCartList, setShoppingCartList] = useState({
+    items: [],
+    totalPrice: 0,
+    totalItems: 0
+  });
+
+  return (
+    <ShoppingCartContext.Provider value={{ shoppingCartList, setShoppingCartList }}>
+      <SideBarPlusContentPage component={<ProductPage/>}/>
+    </ShoppingCartContext.Provider>
+  )
 }       
   
 

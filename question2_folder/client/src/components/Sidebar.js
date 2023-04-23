@@ -6,27 +6,24 @@ import {
     Button,
     Stack,
     Collapse,
-    Icon,
-    Link,
-    Popover,
-    PopoverTrigger,
-    PopoverContent,
     useColorModeValue,
     useDisclosure,
-
-
   } from "@chakra-ui/react"
   import {
     HamburgerIcon,
     CloseIcon,
   } from "@chakra-ui/icons"
- 
+
+  import {BsFillCartFill } from 'react-icons/bs';
+  import { useState, useContext } from "react";
+  import ShoppingCart from './ShoppingCart';
+  import {ShoppingCartContext} from './App';
   
   export default function Sidebar() {
     const { isOpen, onToggle } = useDisclosure()
-  
     return (
       <Box>
+        
         <Flex
           bg={useColorModeValue("white", "gray.800")}
           color={useColorModeValue("gray.600", "white")}
@@ -99,9 +96,22 @@ import {
   }
   
   const DesktopNav = () => {
+    const handlePopupOpen = () => {
+        setIsPopupOpen(true);
+      };
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const handlePopupClose = () => {
+        setIsPopupOpen(false);
+      };
+    const { shoppingCartList, setShoppingCartList } = useContext(ShoppingCartContext);
 
     return (
       <Stack direction={"row"} spacing={4}>
+        <Button m='2%' onClick={handlePopupOpen} leftIcon={<BsFillCartFill />} colorScheme='teal' variant='solid'>
+            View Cart
+        </Button>
+        <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
       </Stack>
     )
   }
@@ -109,12 +119,27 @@ import {
  
   
   const MobileNav = () => {
+    const handlePopupOpen = () => {
+        setIsPopupOpen(true);
+      };
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const handlePopupClose = () => {
+        setIsPopupOpen(false);
+      };
+
+    const { shoppingCartList, setShoppingCartList } = useContext(ShoppingCartContext);
+
     return (
       <Stack
         bg={useColorModeValue("white", "gray.800")}
         p={4}
         display={{ md: "none" }}
       >
+        <Button m='2%' onClick={handlePopupOpen} leftIcon={<BsFillCartFill />} colorScheme='teal' variant='solid'>
+            View Cart
+        </Button>
+        <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
       </Stack>
     )
   }
