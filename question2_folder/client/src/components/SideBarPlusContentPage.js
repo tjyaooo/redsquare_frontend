@@ -20,7 +20,7 @@ const ContentArea = ({component}) =>{
   )
 }
 const Compiled = ({component}) => {
-  const userObject = JSON.parse(localStorage.getItem( 'userObj' ));
+  const userObject = JSON.parse(localStorage.getItem( 'userCred' ));
   const bgOuter = '#F2F2F2'
 
   if(userObject){

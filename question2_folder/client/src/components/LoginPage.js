@@ -33,7 +33,9 @@ const LoginForm = ({handler}) => {
   }
 
   // username: 'kminchelle',
-  // password: '0lelplR',
+  // password: '0lelplR', 
+
+  // "username":"atuny0","password":"9uQFF1Lh"
 
   const loginAction = () => {
     fetch('https://dummyjson.com/auth/login', {

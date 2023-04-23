@@ -156,10 +156,10 @@ export default function ProductPage() {
     <Heading alignSelf={'flex-start'} ml='17.7%' as='h4' size='md' mt='2%'>Sort By</Heading>
     <Flex w='65%' mt='2%'>
       <Select borderRadius={'lg'} borderColor='#949494' onChange={handleSortItemChange} variant='outline'  size="md" value={sortByType} >
-        <option hidden disabled value="">Select Type</option>
+        <option hidden disabled value="">Relevance</option>
+        <option value='category'>Relevance</option>
         <option value='priceASC'>Product Price (Ascending)</option>
         <option value='priceDESC'>Product Price (Descending)</option>
-        <option value='category'>Relevance</option>
       </Select>
       <Button bg='#ED64A6' textColor={'white'} ml='1%' onClick={handleShowSortResults}>Sort Results</Button>
     </Flex>

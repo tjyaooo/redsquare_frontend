@@ -15,14 +15,16 @@ function App() {
     totalItems: 0
   });
 
-  const [isLoggedIn , setIsLoggedIn] = useState(true);
+  const [isLoggedIn , setIsLoggedIn] = useState('load');
 
   const handleSetisLoggedIn = (bool) =>{
     setIsLoggedIn(bool)
   }
 
   useEffect(() => {
+    console.log(localStorage.getItem("userCred"))
     if (!localStorage.getItem("userCred")) {
+      console.log('should be here')
       setIsLoggedIn(false)
     } else{
       setIsLoggedIn(true)
@@ -44,7 +46,7 @@ function App() {
         }
 
         {
-          isLoggedIn &&
+          isLoggedIn != 'load' && isLoggedIn &&
           <Route
             path='*'
             element={<SideBarPlusContentPage component={<ProductPage/>}/>}
