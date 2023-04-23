@@ -21,6 +21,15 @@ import {
   
   export default function Sidebar() {
     const { isOpen, onToggle } = useDisclosure()
+     const handlePopupOpen = () => {
+        setIsPopupOpen(true);
+      };
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const handlePopupClose = () => {
+        setIsPopupOpen(false);
+      };
+    const { shoppingCartList, setShoppingCartList } = useContext(ShoppingCartContext);
     return (
       <Box>
         
@@ -55,6 +64,10 @@ import {
               <DesktopNav />
             </Flex>
           </Flex>
+            <Button m='2%' onClick={handlePopupOpen} leftIcon={<BsFillCartFill />} colorScheme='teal' variant='solid'>
+                View Cart ({shoppingCartList.totalItems})
+            </Button>
+            <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
             <Image verticalAlign={'middle'} borderRadius='50%' boxSize='4rem' src={JSON.parse(localStorage.getItem('userCred')).image} referrerPolicy= "no-referrer" ></Image>
         </Flex>
   
@@ -66,22 +79,9 @@ import {
   }
   
   const DesktopNav = () => {
-    const handlePopupOpen = () => {
-        setIsPopupOpen(true);
-      };
-
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const handlePopupClose = () => {
-        setIsPopupOpen(false);
-      };
-    const { shoppingCartList, setShoppingCartList } = useContext(ShoppingCartContext);
 
     return (
       <Stack direction={"row"} spacing={4}>
-        <Button m='2%' onClick={handlePopupOpen} leftIcon={<BsFillCartFill />} colorScheme='teal' variant='solid'>
-            View Cart ({shoppingCartList.totalItems})
-        </Button>
-        <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
       </Stack>
     )
   }
@@ -89,16 +89,6 @@ import {
  
   
   const MobileNav = () => {
-    const handlePopupOpen = () => {
-        setIsPopupOpen(true);
-      };
-
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const handlePopupClose = () => {
-        setIsPopupOpen(false);
-      };
-
-    const { shoppingCartList, setShoppingCartList } = useContext(ShoppingCartContext);
 
     return (
       <Stack
@@ -106,10 +96,6 @@ import {
         p={4}
         display={{ md: "none" }}
       >
-        <Button m='2%' onClick={handlePopupOpen} leftIcon={<BsFillCartFill />} colorScheme='teal' variant='solid'>
-            View Cart
-        </Button>
-        <ShoppingCart cartList={shoppingCartList} isOpen={isPopupOpen} onClose={handlePopupClose} />
       </Stack>
     )
   }

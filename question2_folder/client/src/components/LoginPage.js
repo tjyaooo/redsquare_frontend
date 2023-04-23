@@ -78,7 +78,7 @@ const LoginArea = ({h}) => {
   const bgInner = '#FFFFFF'
   return (
 
-    <Flex minHeight='100vh' width='full' 
+    <Flex minHeight='100vh' width='90%' 
           align='center' justifyContent='center'>
       <Box 
         borderWidth={1}
@@ -106,13 +106,13 @@ const LoginArea = ({h}) => {
 
 function LoginPage({handler}) {
   return (
-    <div>
+    <Flex align='center' justifyContent='center'>
       {
         (
             <LoginArea h={handler}/>
         )
       }
-    </div>
+    </Flex>
   )
 }
 

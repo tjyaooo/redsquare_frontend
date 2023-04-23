@@ -31,7 +31,7 @@ const ProductCard = ({ product, handleAddToCart }) => {
     <Box borderWidth="1px" borderColor='transparent' borderRadius="lg" overflow="hidden">
    <Center py={6}>
           <Box
-            w="23rem"
+            w="20rem"
             h="26rem"
             rounded={'sm'}
             mx={[0, 5]}

@@ -30,7 +30,7 @@ export default function ProductPage() {
   
 
   //prodName and prodCategory
-  const [filterByItem, setFilterByItem] = useState('');
+  const [filterByItem, setFilterByItem] = useState('prodName');
   const { shoppingCartList, setShoppingCartList } = useContext(ShoppingCartContext);
 
   useEffect(() => {
@@ -136,9 +136,9 @@ export default function ProductPage() {
   };
 
   return (
-    <Flex alignItems={'center'} px='10%' flexDirection={'column'} overflow='hidden' maxW='100%'>
+    <Flex alignItems={'center'} px='5%' flexDirection={'column'} overflow='hidden' maxW='100%'>
 
-      <Flex w='65%' mt='2%'>
+      <Flex w='95%' mt='2%'>
       <InputGroup borderRadius={'lg'} size="md">
         <InputLeftElement
           pointerEvents="none"
@@ -149,25 +149,26 @@ export default function ProductPage() {
           ml='1%'
           p={0}
           borderRadius={'lg'}
+          width='10rem'
         >
         <Select borderRadius={'lg'} onChange={handleFilterTypeChange} variant='outline' value={filterByItem} >
-          <option hidden disabled value="">Select Type</option>
-          <option value='prodName'>Product Name</option>
-          <option value='prodCategory'>Product Category</option>
+          <option value='prodName'>Name</option>
+          <option value='prodCategory'>Category</option>
         </Select>
         </InputRightAddon>
       </InputGroup>
     </Flex>
-
-    <Heading alignSelf={'flex-start'} ml='17.7%' as='h4' size='md' mt='2%'>Sort By</Heading>
-    <Flex w='65%' mt='2%'>
+    <Flex mt='2%' w='95%'>
+      <Heading alignSelf={'flex-start'} as='h4' size='md' mt='2%'>Sort By</Heading>
+    </Flex>
+    <Flex w='95%' mt='2%'>
       <Select borderRadius={'lg'} borderColor='#949494' onChange={handleSortItemChange} variant='outline'  size="md" value={sortByType} >
         <option hidden disabled value="">Relevance</option>
         <option value='category'>Relevance</option>
-        <option value='priceASC'>Product Price (Ascending)</option>
-        <option value='priceDESC'>Product Price (Descending)</option>
+        <option value='priceASC'>Price (Ascending)</option>
+        <option value='priceDESC'>Price (Descending)</option>
       </Select>
-      <Button bg='#ED64A6' textColor={'white'} ml='1%' onClick={handleShowSortResults}>Sort Results</Button>
+      <Button bg='#ED64A6' textColor={'white'} ml='1%' onClick={handleShowSortResults}>Sort</Button>
     </Flex>
 
     <Flex mt='0' flexWrap={'wrap'} overflow='hidden' justifyContent={'center'}>
@@ -179,7 +180,7 @@ export default function ProductPage() {
       <Divider/>
       <HStack width='100%'>
         <Button isDisabled={prevPageButtonDisable} onClick= {handlePreviousPage} colorScheme='teal' size='lg'>
-          Previous Page
+          Previous
         </Button>
         <Select  size='lg' value={pageNo} onChange={handleSelectPage}>
           <option hidden disabled value="">Select Page</option>
@@ -190,7 +191,7 @@ export default function ProductPage() {
         }
         </Select>
         <Button isDisabled={nextPageButtonDisable} onClick = {handleNextPage} colorScheme='teal' size='lg'>
-          Next Page
+          Next
         </Button>
       </HStack>
 

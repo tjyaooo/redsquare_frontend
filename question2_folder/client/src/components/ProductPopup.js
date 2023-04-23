@@ -4,7 +4,7 @@ const ProductPopup = ({ product, isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent maxW='90%'>
         <ModalHeader>{product.title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
