@@ -1,7 +1,6 @@
 import React from "react"
 import {
-  Flex,
-  useColorModeValue,
+  Flex
 } from '@chakra-ui/react'
 import NewOrderProduct from './NewOrderProduct'
 import "../css/NewOrderPage.css";
