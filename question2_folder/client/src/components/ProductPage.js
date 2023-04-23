@@ -11,7 +11,6 @@ import {
   InputLeftElement,
   InputRightAddon,
   useToast,
-  InputRightElement
 } from '@chakra-ui/react';
 import {Search2Icon} from  "@chakra-ui/icons"
 
@@ -33,9 +32,16 @@ export default function ProductPage() {
   //prodName and prodCategory
   const [filterByItem, setFilterByItem] = useState('');
   const { shoppingCartList, setShoppingCartList } = useContext(ShoppingCartContext);
-  
+
   useEffect(() => {
-    fetch('https://dummyjson.com/products')
+    const tokenHeader = JSON.parse(localStorage.getItem('userCred')).token;
+    fetch('https://dummyjson.com/products?limit=0', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer '+ {tokenHeader}, 
+        'Content-Type': 'application/json'
+      }, 
+    })
       .then(res => res.json())
       .then(data => {
         setProductsUnfil(data.products);

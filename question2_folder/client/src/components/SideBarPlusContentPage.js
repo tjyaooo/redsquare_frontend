@@ -1,18 +1,12 @@
 import React from "react"
 import {
   Flex,
-  useColorModeValue,
   Center
 } from '@chakra-ui/react'
 import Sidebar from './Sidebar'
 import "../css/SideBarPlusContentPage.css";
 
-// <meta name="referrer" content="no-referrer" />
-
-
-
 const ContentArea = ({component}) =>{
-  console.log(component);
   return (
     <Flex id="contentDiv">
       {component}

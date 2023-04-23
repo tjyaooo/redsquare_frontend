@@ -105,9 +105,6 @@ const LoginArea = ({h}) => {
 
 
 function LoginPage({handler}) {
-  console.log('handler is here');
-  console.log(handler)
-  
   return (
     <div>
       {

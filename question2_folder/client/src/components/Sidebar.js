@@ -21,8 +21,6 @@ import {
   
   export default function Sidebar() {
     const { isOpen, onToggle } = useDisclosure()
-    console.log('here is the image link')
-    console.log(JSON.parse(localStorage.getItem('userCred')).image)
     return (
       <Box>
         
