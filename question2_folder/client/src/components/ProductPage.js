@@ -50,6 +50,20 @@ export default function ProductPage() {
       .catch(error => console.log(error));
   }, []);
 
+  useEffect(() => {
+    if(pageNo === Math.ceil(products.length/10)){
+      setNextDisable(true)
+    } else{
+      setNextDisable(false)
+    }
+
+    if (pageNo === 1){
+      setPrevDisable(true)
+    } else{
+      setPrevDisable(false)
+    }
+  }, [pageNo,products]);
+
   const handleNextPage=() => {
     handlePageChange(pageNo+1)
   }
@@ -61,19 +75,7 @@ export default function ProductPage() {
   }
 
   const handlePageChange = (pageNum) => {
-    setPageNo(pageNum)
-    if(pageNum === Math.round(products.length/10)){
-      setNextDisable(true)
-    } else{
-      setNextDisable(false)
-    }
-
-    if (pageNum === 1){
-      setPrevDisable(true)
-    } else{
-      setPrevDisable(false)
-    }
-    
+    setPageNo(pageNum)    
   }
 
   const handleFilterTypeChange = (e) => setFilterByItem(e.target.value)
@@ -102,6 +104,7 @@ export default function ProductPage() {
     else {
       setProducts(productsUnfil)
     }
+    setPageNo(1)
   }
 
   const addItemToCart = (item) => {
